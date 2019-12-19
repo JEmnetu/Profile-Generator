@@ -52,8 +52,25 @@ let queryGithub = (response) => {
                     <meta http-equiv="X-UA-Compatible" content="ie=edge">
                     <title>Document</title>
                     <style>
-                    #avatar{border-radius:10px;
-                    margin-left:40%;}
+                    body {
+                        background-color: rgb(39, 156, 39);
+                    }
+                    
+                    #avatar {
+                        border: solid 6px gold;
+                        border-radius: 40px;
+                        margin-left: 40%;
+                    }
+                    
+                    header {
+                        background-color: rgb(226, 15, 15);
+                        margin: 3em 1em 0em 1em;
+                        border-radius: 12px;
+                    }
+                    
+                    header h1 {
+                        text-align: center;
+                    }
                     
                     
                     
@@ -61,12 +78,13 @@ let queryGithub = (response) => {
                 </head>
                 
                 <body>
+                <header>
                     <img id='avatar' src="` + userAvatar + `" alt="Github Avatar" height="250" width="250">
                     <h1>Greetings!</h1>
                     <h1>My Name is  ` + name + `! </h1>
                     <a href=` + locationQueryURL + ` target='_blank' <span id="location">` + resp.data.location + `</span></a> <a href=` + profileURL + ` target='_blank'><span id="Github">Github</span></a>
-                
-                    <h3>` + bioText + `</h3>
+                </header>
+                    <h3 id='bio'>` + bioText + `</h3>
 
                     <section id='repos'>Public Repos:<br>${repoAmt}</section>
                     <section id='followers'>Followers:<br>${followerCount}</section>
