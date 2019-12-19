@@ -22,6 +22,7 @@ let queryGithub = (response) => {
                 const profileURL = resp.data.html_url;
                 const followerCount = resp.data.followers;
                 const followingCount = resp.data.following;
+                const repoAmt = resp.data.public_repos;
                 const bioText = resp.data.bio;
                 const userAvatar = resp.data.avatar_url;
                 const locationQueryURL = 'https://www.google.com/maps/search/?api=1&query=' + resp.data.location;
@@ -45,10 +46,16 @@ let queryGithub = (response) => {
                     <img src="` + userAvatar + `" alt="Github Avatar" height="250" width="250">
                     <h1>Greetings!</h1>
                     <h1>My Name is  ` + name + `! </h1>
-                    <a href=` + locationQueryURL + ` <span id="location">` + resp.data.location + `</span></a> <span id="Github">[Insert Github link]</span>
+                    <a href=` + locationQueryURL + ` target='_blank' <span id="location">` + resp.data.location + `</span></a> <a href=` + profileURL + ` target='_blank'><span id="Github">Github</span></a>
                 
-                    <h3>[Insert github bio]</h3>
+                    <h3>` + bioText + `</h3>
+
+                    <section id='repos'>Public Repos:<br>${repoAmt}</section>
+                    <section id='followers'>Followers:<br>${followerCount}</section>
+                    <section id='stars'></section>
+                 <section id='following'>Following:<br>${followingCount}</section>
                 </body>
+
                 
                 </html>`;
 
@@ -56,20 +63,24 @@ let queryGithub = (response) => {
                 fs.writeFile('./index.html', page, (err) => { if (err) { console.log(err) } });
 
             })
-        axios.get(queryUrl2)
-            // Query user's repo data
-            .then(function(resp2) {
+            .then(function() {
+                axios.get(queryUrl2)
+                    // Query user's repo data
+                    .then(function(resp2) {
 
-                // console.log(resp2.data);
-                // Loops thru each repo and keeps a count of how many are starred.
-                resp2.data.forEach(element => {
+                        // console.log(resp2.data);
+                        // Loops thru each repo and keeps a count of how many are starred.
+                        resp2.data.forEach(element => {
 
-                    console.log(element.name + ' ' + element.stargazers_count);
-                    starCount += element.stargazers_count;
-                });
-                console.log(name + ' has ' + starCount + ' Github stars');
-                return;
+                            console.log(element.name + ' ' + element.stargazers_count);
+                            starCount += element.stargazers_count;
+                        });
+                        console.log(name + ' has ' + starCount + ' Github stars');
+
+
+                    })
             })
+
 
 
     }
