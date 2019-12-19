@@ -1,26 +1,28 @@
 {
-  "name": "propdf",
-  "version": "1.0.0",
-  "description": "A command-line application that takes a Github username as an argument and dynamically creates a PDF. profile.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JEmnetu/Profile-Generator.git"
-  },
-  "keywords": [
-    "npm"
-  ],
-  "author": "Jacob",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JEmnetu/Profile-Generator/issues"
-  },
-  "homepage": "https://github.com/JEmnetu/Profile-Generator#readme",
-  "dependencies": {
-    "axios": "^0.19.0",
-    "inquirer": "^7.0.1"
-  }
+    "name": "propdf",
+    "version": "1.0.0",
+    "description": "A command-line application that takes a Github username as an argument and dynamically creates a PDF. profile.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JEmnetu/Profile-Generator.git"
+    },
+    "keywords": [
+        "npm"
+    ],
+    "author": "Jacob",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/JEmnetu/Profile-Generator/issues"
+    },
+    "homepage": "https://github.com/JEmnetu/Profile-Generator#readme",
+    "dependencies": {
+        "axios": "^0.19.0",
+        "inquirer": "^7.0.1",
+        "puppeteer": "^2.0.0",
+        "html-pdf": "2.2.0"
+    }
 }
