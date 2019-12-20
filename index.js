@@ -3,11 +3,12 @@ const axios = require('axios');
 const fs = require('fs');
 const pdf = require('html-pdf');
 const html = fs.readFileSync('./index.html', 'utf8');
+const bgColor = process.argv[2];
 
 
 //Function to generate PDF 
 let savePDF = () => {
-    const options = { format: 'Letter' };
+    const options = { format: 'A4' };
     pdf.create(html, options).toFile('./Github-Resume.pdf', function(err, res) {
         if (err) return console.log(err);
         console.log(res);
@@ -27,7 +28,7 @@ let queryGithub = (response) => {
         // Query user's profile data
         .then(function(resp) {
 
-            console.log(resp);
+            // console.log(resp);
             const username = resp.data.login;
             const name = resp.data.name;
             const profileURL = resp.data.html_url;
@@ -37,12 +38,12 @@ let queryGithub = (response) => {
             const bioText = resp.data.bio;
             const userAvatar = resp.data.avatar_url;
             const locationQueryURL = 'https://www.google.com/maps/search/?api=1&query=' + resp.data.location;
-            console.log('Github URL: ' + profileURL);
-            console.log(followerCount + ' Followers.');
-            console.log('Followed By; ' + followingCount);
-            console.log('Bio: ' + bioText);
-            console.log('Image URL: ' + userAvatar);
-            console.log('Location URL: ' + locationQueryURL);
+            // console.log('Github URL: ' + profileURL);
+            // console.log(followerCount + ' Followers.');
+            // console.log('Followed By; ' + followingCount);
+            // console.log('Bio: ' + bioText);
+            // console.log('Image URL: ' + userAvatar);
+            // console.log('Location URL: ' + locationQueryURL);
             const page = `<!DOCTYPE html>
                 <html lang="en">
                 
@@ -53,48 +54,86 @@ let queryGithub = (response) => {
                     <title>Document</title>
                     <style>
                     body {
-                        background-color: rgb(39, 156, 39);
+                        background-color:${bgColor};
                     }
                     
                     #avatar {
                         border: solid 6px gold;
                         border-radius: 40px;
-                        margin-left: 40%;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        
+                    }
+                    #bio {
+                        text-align: center;
+                        margin-top: 3em;
+                        margin-bottom: 2em;
+                    }
+
+                    section {
+                        text-align: center;
+                        display: block;
+                        margin-left: 260px;
+                        margin-top: 100px;
+                        margin-right: auto;
+                    }
+                    
+                    section p {
+                        float: left;
+                        margin-left: 2em;
+                        background-color: white;
+                        border-radius: 12px;
+                        border: solid 6px black;
+                        padding: 2em;
+                        font-size: 1.5em;
+                        font-weight: bold;
                     }
                     
                     header {
-                        background-color: rgb(226, 15, 15);
+                        background-color: white;
                         margin: 3em 1em 0em 1em;
                         border-radius: 12px;
+                        border:solid 6px black;
                     }
                     
                     header h1 {
                         text-align: center;
+                    }
+                    header a {
+                        text-decoration: none;
+                        color: black;
+                        font-size: 1.5em;
+                        margin: .5em;
+                        text-align: center;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
                     }
                     
                     
                     
                     </style>
                 </head>
-                
+            
                 <body>
                 <header>
                     <img id='avatar' src="` + userAvatar + `" alt="Github Avatar" height="250" width="250">
                     <h1>Greetings!</h1>
                     <h1>My Name is  ` + name + `! </h1>
-                    <a href=` + locationQueryURL + ` target='_blank' <span id="location">` + resp.data.location + `</span></a> <a href=` + profileURL + ` target='_blank'><span id="Github">Github</span></a>
+                    <a href=${locationQueryURL} target='_blank' <span id="location">` + resp.data.location + `</span></a> <a href=` + profileURL + ` target='_blank'><span id="Github">Github</span></a>
                 </header>
-                    <h3 id='bio'>` + bioText + `</h3>
-
-                    <section id='repos'>Public Repos:<br>${repoAmt}</section>
-                    <section id='followers'>Followers:<br>${followerCount}</section>
-                    <section id='stars'></section>
-                 <section id='following'>Following:<br>${followingCount}</section>
+                <h2 id='bio'>${bioText}</h2>
+                <section>
+                    
+                    <p id='repos'>Public Repos:<br>${repoAmt}</p>
+                    <p id='followers'>Followers:<br>${followerCount}</p>
+                 <p id='following'>Following:<br>${followingCount}</p>
+                 </section>
                 </body>
 
                 
                 </html>`;
-
             //Writes pulled information to index.html
             fs.writeFile('./index.html', page, (err) => { if (err) { console.log(err) } });
 
@@ -108,15 +147,16 @@ let queryGithub = (response) => {
                     // Loops thru each repo and keeps a count of how many are starred.
                     resp2.data.forEach(element => {
 
-                        console.log(element.name + ' ' + element.stargazers_count);
+                        // console.log(element.name + ' ' + element.stargazers_count);
                         starCount += element.stargazers_count;
                     });
-                    console.log(name + ' has ' + starCount + ' Github stars');
+                    // console.log(name + ' has ' + starCount + ' Github stars');
 
 
                 })
         })
         .then(savePDF);
+    console.log(bgColor);
 
 
 }
